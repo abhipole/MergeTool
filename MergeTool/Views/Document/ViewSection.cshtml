@@ -1,0 +1,35 @@
+﻿@model MergeTool.Models.DocumentSection
+
+@{
+    ViewData["Title"] = "View Section";
+}
+
+<h2 class="mb-3">Section: @Model.Title</h2>
+
+<p><strong>Section Index:</strong> @Model.SectionIndex</p>
+<p><strong>Last Edited:</strong> @(Model.LastEditedAt.ToString("yyyy-MM-dd HH:mm") ?? "N/A")</p>
+
+<hr />
+
+<div class="border p-3" style="background-color:#f9f9f9">
+    <div class="table-responsive">
+        <div id="section-content">
+            @Html.Raw(Model.Content)
+        </div>
+    </div>
+</div>
+
+<a asp-action="Details" asp-route-id="@Model.DocumentId" class="btn btn-secondary mt-3">Back to Document</a>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const tables = document.querySelectorAll("#section-content table");
+            tables.forEach(table => {
+                table.classList.add("table", "table-bordered", "table-striped");
+                const ths = table.querySelectorAll("th");
+                ths.forEach(th => th.classList.add("table-dark"));
+            });
+        });
+    </script>
+}

@@ -1,0 +1,85 @@
+﻿@model MergeTool.Models.Document
+
+@{
+    ViewData["Title"] = "Document Details";
+}
+
+<h2 class="mb-4">Document: @Model.Title</h2>
+
+<a class="btn btn-secondary mb-3" asp-action="Index">Back to All Documents</a>
+
+<hr />
+
+<h4>Sections</h4>
+
+@if (Model.Sections?.Any() == true)
+{
+    <table class="table table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>#</th>
+                <th>Title</th>
+                <th>Last Edited</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var sec in Model.Sections.OrderBy(s => s.SectionIndex))
+            {
+                <tr>
+                    <td>@sec.SectionIndex</td>
+                    <td>@sec.Title</td>
+                    <td>@sec.LastEditedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td>
+                        <a class="btn btn-sm btn-primary me-2" asp-action="EditSection" asp-route-sectionId="@sec.Id">Edit</a>
+                        <a class="btn btn-sm btn-outline-dark" asp-action="ViewSection" asp-route-id="@sec.Id" target="_blank">Open</a>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p><em>No sections yet.</em></p>
+}
+
+<hr />
+
+<h4 class="mt-4">Add New Section</h4>
+
+<form asp-action="UpdateSection" method="post">
+    <input type="hidden" name="Id" value="0" />
+    <input type="hidden" name="DocumentId" value="@Model.Id" />
+
+    <div class="mb-3 row">
+        <div class="col-md-6">
+            <label class="form-label">Section Title</label>
+            <input type="text" name="Title" class="form-control" placeholder="e.g., Introduction" required />
+        </div>
+        <div class="col-md-2">
+            <label class="form-label">Section Index</label>
+            <input type="number" name="SectionIndex" class="form-control" min="1" placeholder="1" required />
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Content</label>
+        <textarea name="Content" id="Content" class="form-control" rows="4" placeholder="Write section content..." required></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-success">Add Section</button>
+</form>
+
+<hr />
+
+<h4 class="mt-4">Download</h4>
+<a class="btn btn-outline-success" asp-action="Download" asp-route-documentId="@Model.Id">Download as DOCX</a>
+
+@section Scripts {
+    <script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('Content');
+    </script>
+}

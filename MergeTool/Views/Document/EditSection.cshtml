@@ -1,0 +1,38 @@
+﻿@model MergeTool.Models.DocumentSection
+
+@{
+    ViewData["Title"] = "Edit Section";
+}
+
+<h2 class="mb-4">Edit Section</h2>
+
+<a class="btn btn-secondary mb-3" asp-action="Details" asp-route-id="@Model.DocumentId">Back to Document</a>
+
+<form asp-action="UpdateSection" method="post">
+    <input type="hidden" name="Id" value="@Model.Id" />
+    <input type="hidden" name="DocumentId" value="@Model.DocumentId" />
+
+    <div class="mb-3">
+        <label class="form-label">Section Title</label>
+        <input type="text" name="Title" value="@Model.Title" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Section Index</label>
+        <input type="number" name="SectionIndex" value="@Model.SectionIndex" class="form-control" readonly />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Content</label>
+        <textarea name="Content" id="editor" rows="10" class="form-control">@Model.Content</textarea>
+    </div>
+
+    <button type="submit" class="btn btn-success">Save Changes</button>
+</form>
+
+@section Scripts {
+    <script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('editor');
+    </script>
+}
