@@ -11,25 +11,36 @@
 
 <hr />
 
-<div class="border p-3" style="background-color:#f9f9f9">
-    <div class="table-responsive">
-        <div id="section-content">
-            @Html.Raw(Model.Content)
-        </div>
-    </div>
+<!-- 📄 Render section content as-is -->
+<div id="section-content">
+    @Html.Raw(Model.Content)
 </div>
 
 <a asp-action="Details" asp-route-id="@Model.DocumentId" class="btn btn-secondary mt-3">Back to Document</a>
 
-@section Scripts {
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const tables = document.querySelectorAll("#section-content table");
-            tables.forEach(table => {
-                table.classList.add("table", "table-bordered", "table-striped");
-                const ths = table.querySelectorAll("th");
-                ths.forEach(th => th.classList.add("table-dark"));
-            });
-        });
-    </script>
-}
+<!-- ✅ Full-width Word-like formatting for tables -->
+<style>
+    #section-content table {
+        width: 100% !important; /* Full width like Word */
+        margin: 0 auto !important; /* Center the table */
+        border-collapse: collapse;
+        table-layout: auto; /* Distribute column widths naturally */
+    }
+
+    #section-content th,
+    #section-content td {
+        border: 1px solid #000;
+        padding: 8px;
+        text-align: left;
+        vertical-align: top;
+    }
+
+    #section-content th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+    }
+
+    #section-content {
+        overflow-x: auto; /* For mobile scroll */
+    }
+</style>
